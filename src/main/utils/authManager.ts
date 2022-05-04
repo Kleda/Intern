@@ -36,7 +36,7 @@ class AuthManager {
       token: data?.token
     };
 
-    if (responseLogin?.token && (payload as any).rememberMe) {
+    if (responseLogin?.token) {
       JwtManager.setAccessToken(responseLogin.token);
     }
 
@@ -49,9 +49,9 @@ class AuthManager {
   }
 
   static async register(user: IUser): Promise<void> {
-    const { data }  = await axios.post('authentication/register',user);
-    if (data?.token) {
-      JwtManager.setAccessToken(data.token);
+    const res  = await axios.post('authentication/register',user);
+    if (res.data) {
+      JwtManager.setAccessToken(res.data.token);
       window.location.pathname='/';
     }
   }
